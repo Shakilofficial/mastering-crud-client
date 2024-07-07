@@ -9,6 +9,8 @@ import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Services from "../pages/Services/Services";
+import Profile from "../pages/User/Profile";
+import TrackOrder from "../pages/User/TrackOrder";
 
 const routes = createBrowserRouter([
   {
@@ -40,6 +42,20 @@ const routes = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/user",
+    element: <App />,
+    children: [
+      {
+        index: true,
+        element: <Profile />,
+      },
+      {
+        path: "orders",
+        element: <TrackOrder />,
+      },
+    ],
   },
   {
     path: "/admin",
