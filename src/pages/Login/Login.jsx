@@ -8,7 +8,7 @@ import useAuth from "../../hooks/useAuth";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { isLoading, login, googleLogin } = useAuth();
+  const { googleLogin, login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -17,7 +17,7 @@ const Login = () => {
 
     try {
       await login(email, password);
-      toast.success("Logged in successfully!", { id: toastId });
+      toast.success("Logged in", { id: toastId });
       navigate("/");
     } catch (error) {
       toast.error(error.message, { id: toastId });
@@ -25,11 +25,11 @@ const Login = () => {
   };
 
   const handleGoogleLogin = async () => {
-    const toastId = toast.loading("Logging in with Google ...");
+    const toastId = toast.loading("Logging in ...");
 
     try {
       await googleLogin();
-      toast.success("Logged in with Google successfully!", { id: toastId });
+      toast.success("Logged in", { id: toastId });
       navigate("/");
     } catch (error) {
       toast.error(error.message, { id: toastId });
@@ -50,27 +50,25 @@ const Login = () => {
             </label>
             <input
               type="email"
-              placeholder="Email"
+              placeholder="email"
               className="input input-bordered"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onBlur={(e) => setEmail(e.target.value)}
               required
             />
           </div>
-          <div className="form-control mt-4">
+          <div className="form-control">
             <label className="label">
               <span className="label-text">Password</span>
             </label>
             <input
               type="password"
-              placeholder="Password"
+              placeholder="password"
               className="input input-bordered"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               required
+              onBlur={(e) => setPassword(e.target.value)}
             />
           </div>
-          <p className="text-center mt-4 text-sm">
+          <p className="text-center text-sm">
             Do not have an account?
             <NavLink
               to="/register"
@@ -79,19 +77,19 @@ const Login = () => {
               Register
             </NavLink>
           </p>
-          <div className="form-control mt-4">
-            <button type="submit" className="btn btn-primary w-full">
-              {isLoading ? "Logging in..." : "Login"}
+          <div className="form-control mt-2">
+            <button type="submit" className="btn btn-primary">
+              Login
             </button>
           </div>
-          <div className="divider mt-6">Or continue with</div>
+          <div className="divider">Or, Continue With</div>
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="btn btn-outline btn-primary w-full flex items-center justify-center mt-4"
+            className="btn btn-outline btn-primary w-full flex justify-between items-center cursor-pointer"
           >
             Google
-            <FcGoogle className="ml-2 w-6 h-6" />
+            <FcGoogle className="w-8 h-8" />
           </button>
         </form>
       </div>

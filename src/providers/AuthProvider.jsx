@@ -1,10 +1,9 @@
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
-  getRedirectResult,
   onAuthStateChanged,
   signInWithEmailAndPassword,
-  signInWithRedirect,
+  signInWithPopup,
   signOut,
 } from "firebase/auth";
 import PropTypes from "prop-types";
@@ -19,59 +18,30 @@ const AuthProvider = ({ children }) => {
 
   const createUser = (email, password) => {
     setIsLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setUser(userCredential.user);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        throw error;
-      });
+    return createUserWithEmailAndPassword(auth, email, password);
   };
 
   const login = (email, password) => {
     setIsLoading(true);
-    return signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setUser(userCredential.user);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        throw error;
-      });
+    return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const googleLogin = () => {
+  const googleLogin = async () => {
     setIsLoading(true);
-    signInWithRedirect(auth, new GoogleAuthProvider());
-  };
-
-  const handleRedirectResult = () => {
-    setIsLoading(true);
-    getRedirectResult(auth)
-      .then((result) => {
-        setUser(result.user);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        throw error;
-      });
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      setUser(result.user);
+    } catch (error) {
+      console.error("Google login error: ", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const logout = () => {
     setIsLoading(true);
-    return signOut(auth)
-      .then(() => {
-        setUser(null);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        throw error;
-      });
+    return signOut(auth).then(() => setIsLoading(false));
   };
 
   useEffect(() => {
@@ -85,15 +55,7 @@ const AuthProvider = ({ children }) => {
     };
   }, []);
 
-  const values = {
-    createUser,
-    login,
-    user,
-    isLoading,
-    logout,
-    googleLogin,
-    handleRedirectResult,
-  };
+  const values = { createUser, login, user, isLoading, logout, googleLogin };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };

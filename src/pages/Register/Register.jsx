@@ -9,14 +9,14 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
-  const { createUser, googleLogin, isLoading } = useAuth();
+  const { createUser, googleLogin } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (confirm !== password) {
-      toast.error("Passwords do not match");
+      toast.error("Mismatch in confirm password");
       return;
     }
 
@@ -24,19 +24,20 @@ const Register = () => {
 
     try {
       await createUser(email, password);
-      toast.success("User created successfully!", { id: toastId });
+      toast.success("User Created", { id: toastId });
       navigate("/");
     } catch (error) {
+      console.log(error);
       toast.error(error.message, { id: toastId });
     }
   };
 
   const handleGoogleLogin = async () => {
-    const toastId = toast.loading("Logging in with Google ...");
+    const toastId = toast.loading("Logging in ...");
 
     try {
       await googleLogin();
-      toast.success("Logged in with Google successfully!", { id: toastId });
+      toast.success("Logged in", { id: toastId });
       navigate("/");
     } catch (error) {
       toast.error(error.message, { id: toastId });
@@ -57,40 +58,37 @@ const Register = () => {
             </label>
             <input
               type="email"
-              placeholder="Email"
+              placeholder="email"
               className="input input-bordered"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onBlur={(e) => setEmail(e.target.value)}
               required
             />
           </div>
-          <div className="form-control mt-4">
+          <div className="form-control">
             <label className="label">
               <span className="label-text">Password</span>
             </label>
             <input
               type="password"
-              placeholder="Password"
+              placeholder="password"
               className="input input-bordered"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               required
+              onBlur={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div className="form-control mt-4">
+          <div className="form-control">
             <label className="label">
               <span className="label-text">Confirm Password</span>
             </label>
             <input
               type="password"
-              placeholder="Confirm Password"
+              placeholder="confirm password"
               className="input input-bordered"
-              value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
               required
+              onBlur={(e) => setConfirm(e.target.value)}
             />
           </div>
-          <p className="text-center mt-4 text-sm">
+          <p className="text-center text-sm">
             Already have an account?{" "}
             <NavLink
               to="/login"
@@ -99,19 +97,19 @@ const Register = () => {
               Login
             </NavLink>
           </p>
-          <div className="form-control mt-4">
-            <button type="submit" className="btn btn-primary w-full">
-              {isLoading ? "Creating user..." : "Sign Up"}
+          <div className="form-control mt-2">
+            <button type="submit" className="btn btn-primary">
+              Sign up
             </button>
           </div>
-          <div className="divider mt-6">Or, continue with</div>
+          <div className="divider">Or, Continue With</div>
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="btn btn-outline btn-primary w-full flex items-center justify-center mt-4"
+            className="btn btn-outline btn-primary w-full flex justify-between items-center cursor-pointer"
           >
             Google
-            <FcGoogle className="ml-2 w-6 h-6" />
+            <FcGoogle className="w-8 h-8" />
           </button>
         </form>
       </div>

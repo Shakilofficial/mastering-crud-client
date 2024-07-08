@@ -3,10 +3,9 @@ import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-
+  console.log(user);
   return (
-    <div className="w-full max-w-[1250px] px-[25px] mx-auto flex justify-between items-center py-4">
-      {/* Mobile Menu Button */}
+    <div className=" w-full max-w-[1250px] px-[25px] mx-auto">
       <div className="flex-none lg:hidden">
         <label
           htmlFor="my-drawer-3"
@@ -28,86 +27,89 @@ const Navbar = () => {
           </svg>
         </label>
       </div>
-
-      {/* Logo */}
       <div className="flex-1 text-xl font-bold text-primary">Clean Co</div>
-
-      {/* Desktop Menu */}
       <div className="flex-none hidden lg:block">
         <div className="flex items-center gap-2">
-          {/* Navigation Links */}
+          {/* Navbar menu content here */}
           <NavLink
             to="/"
-            exact
-            className="btn btn-sm btn-ghost"
-            activeClassName="btn-primary"
+            className={({ isActive }) =>
+              isActive ? "btn btn-primary btn-sm" : "btn btn-ghost btn-sm"
+            }
           >
             Home
           </NavLink>
           <NavLink
             to="/about"
-            className="btn btn-sm btn-ghost"
-            activeClassName="btn-primary"
+            className={({ isActive }) =>
+              isActive ? "btn btn-primary btn-sm" : "btn btn-ghost btn-sm"
+            }
           >
             About
           </NavLink>
           <NavLink
             to="/contact"
-            className="btn btn-sm btn-ghost"
-            activeClassName="btn-primary"
+            className={({ isActive }) =>
+              isActive ? "btn btn-primary btn-sm" : "btn btn-ghost btn-sm"
+            }
           >
             Contact
           </NavLink>
           <NavLink
             to="/services"
-            className="btn btn-sm btn-ghost"
-            activeClassName="btn-primary"
+            className={({ isActive }) =>
+              isActive ? "btn btn-primary btn-sm" : "btn btn-ghost btn-sm"
+            }
           >
             Services
           </NavLink>
+          {user?.email ? (
+            <div className="dropdown dropdown-end ">
+              <label tabIndex={0} className="cursor-pointer">
+                <div className="avatar">
+                  <div className="w-10 rounded-full">
+                    <img
+                      src={
+                        user.photoURL
+                          ? user.photoURL
+                          : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=1964&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                      }
+                      alt="User Avatar"
+                    />
+                  </div>
+                </div>
+              </label>
+              <div
+                tabIndex={0}
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <NavLink
+                  to="/user"
+                  className="px-4 py-2 hover:bg-base-300 rounded-lg"
+                >
+                  Profile
+                </NavLink>
+                <NavLink
+                  to="/user/orders"
+                  className="px-4 py-2 hover:bg-base-300 rounded-lg"
+                >
+                  Orders
+                </NavLink>
 
-          {/* User Authentication Links or Dropdown */}
-          {user ? (
-            // If user is logged in
-            <div className="relative">
-              <button className="btn btn-sm btn-ghost">
-                {user.displayName}
-              </button>
-              <div className="dropdown dropdown-end">
-                <ul className="menu dropdown-content w-52">
-                  <li>
-                    <NavLink
-                      to="/user"
-                      className="block px-4 py-2 hover:bg-base-300 rounded-lg"
-                    >
-                      Profile
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to="/user/orders"
-                      className="block px-4 py-2 hover:bg-base-300 rounded-lg"
-                    >
-                      Orders
-                    </NavLink>
-                  </li>
-                  <li>
-                    <div
-                      onClick={logout}
-                      className="block px-4 py-2 hover:bg-base-300 rounded-lg text-red-500 cursor-pointer"
-                    >
-                      Logout
-                    </div>
-                  </li>
-                </ul>
+                <div
+                  onClick={logout}
+                  className="cursor-pointer text-red-500 px-4 py-2 hover:bg-base-300 rounded-lg"
+                >
+                  Logout
+                </div>
               </div>
             </div>
           ) : (
-            // If user is not logged in
             <NavLink
               to="/login"
-              className="btn btn-sm btn-primary"
-              activeClassName="btn-active"
+              className={({ isActive }) =>
+                isActive ? "btn btn-primary btn-sm" : "btn btn-ghost btn-sm"
+              }
             >
               Login
             </NavLink>
