@@ -1,14 +1,15 @@
+import about from "../../assets/images/about.svg";
 const About = () => {
   return (
-    <div className="sm:flex items-center">
+    <div className="sm:flex items-center mt-12">
       <div className="sm:w-1/2 p-10">
         <div className="image object-center text-center">
-          <img src="https://i.imgur.com/WbQnbas.png" />
+          <img src={about} />
         </div>
       </div>
       <div className="sm:w-1/2 p-5">
         <div className="text">
-          <span className="text-gray-500 border-b-2 border-green-600 uppercase">
+          <span className="text-gray-500 font-bold text-xl border-b-2 border-green-600 uppercase">
             About us
           </span>
           <h2 className="my-4 font-bold text-3xl  sm:text-4xl ">

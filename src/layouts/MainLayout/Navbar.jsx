@@ -3,7 +3,6 @@ import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-  console.log(user);
   return (
     <div className=" w-full max-w-[1250px] px-[25px] mx-auto">
       <div className="flex-none lg:hidden">
@@ -48,20 +47,28 @@ const Navbar = () => {
             About
           </NavLink>
           <NavLink
-            to="/contact"
-            className={({ isActive }) =>
-              isActive ? "btn btn-primary btn-sm" : "btn btn-ghost btn-sm"
-            }
-          >
-            Contact
-          </NavLink>
-          <NavLink
             to="/services"
             className={({ isActive }) =>
               isActive ? "btn btn-primary btn-sm" : "btn btn-ghost btn-sm"
             }
           >
             Services
+          </NavLink>
+          <NavLink
+            to="/booking"
+            className={({ isActive }) =>
+              isActive ? "btn btn-primary btn-sm" : "btn btn-ghost btn-sm"
+            }
+          >
+            Booking
+          </NavLink>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              isActive ? "btn btn-primary btn-sm" : "btn btn-ghost btn-sm"
+            }
+          >
+            Contact
           </NavLink>
           {user?.email ? (
             <div className="dropdown dropdown-end ">
@@ -81,7 +88,7 @@ const Navbar = () => {
               </label>
               <div
                 tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                className="dropdown-content z-[1] menu mt-2 p-2 shadow bg-base-100 rounded-box w-40"
               >
                 <NavLink
                   to="/user"
