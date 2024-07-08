@@ -1,11 +1,14 @@
 import { Outlet } from "react-router-dom";
+import Container from "./components/ui/Container";
 import MainLayout from "./layouts/MainLayout/MainLayout";
 
 function App() {
   return (
     <div>
       <MainLayout>
-        <Outlet />
+        <Container>
+          <Outlet />
+        </Container>
       </MainLayout>
     </div>
   );

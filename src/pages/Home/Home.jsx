@@ -13,8 +13,10 @@ const Home = () => {
             <span className="mt-5 text-primary">for Your Home</span>
           </h1>
           <p className="my-5 max-w-[65ch] text-start md:text-left">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit
-            tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus
+            consequuntur aut cumque. Assumenda aliquam fugit tempore repudiandae
+            accusantium perferendis unde maxime fuga alias minus consequuntur
+            libero asperiores beatae.
           </p>
           <div className="space-x-5 text-start md:text-left">
             <Link to="/services" className="btn btn-lg btn-primary">

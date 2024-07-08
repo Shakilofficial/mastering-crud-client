@@ -5,6 +5,7 @@ import About from "../pages/About/About";
 import AddService from "../pages/Admin/AddService";
 import AdminHome from "../pages/Admin/AdminHome";
 import Contact from "../pages/Contact/Contact";
+import Error from "../pages/Error/Error";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
@@ -16,6 +17,7 @@ const routes = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <Error />,
     children: [
       {
         index: true,
