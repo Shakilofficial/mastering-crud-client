@@ -4,6 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { NavLink, useNavigate } from "react-router-dom";
 import Header from "../../components/ui/Header";
 import useAuth from "../../hooks/useAuth";
+import useAxios from "../../hooks/useAxios";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ const Register = () => {
   const [confirm, setConfirm] = useState("");
   const { createUser, googleLogin } = useAuth();
   const navigate = useNavigate();
+  const axios = useAxios();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +25,8 @@ const Register = () => {
     const toastId = toast.loading("Creating user ...");
 
     try {
-      await createUser(email, password);
+      const user = await createUser(email, password);
+      axios.post("/auth/access-token", { email: user.user.email });
       toast.success("User Created", { id: toastId });
       navigate("/");
     } catch (error) {
