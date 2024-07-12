@@ -94,7 +94,7 @@ const Services = () => {
               id="category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-green-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base bg-green-200 border-green-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md"
             >
               {categories.map((cat) => (
                 <option key={cat} value={cat}>
@@ -112,9 +112,9 @@ const Services = () => {
             </label>
             <select
               id="sort"
-              value={sortOptions}
+              value={price}
               onChange={(e) => setPrice(e.target.value)}
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base bg-green-200 border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md"
             >
               {sortOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -124,7 +124,7 @@ const Services = () => {
             </select>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services?.data?.result.map((item) => (
             <ServiceCard key={item._id} service={item} />
           ))}
