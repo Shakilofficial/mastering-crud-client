@@ -1,14 +1,36 @@
 import { useQuery } from "@tanstack/react-query";
-
+import { useState } from "react";
 import ServiceCard from "../../components/ServiceCard";
 import Container from "../../components/ui/Container";
 import Header from "../../components/ui/Header";
 import useAxios from "../../hooks/useAxios";
+import { capitalizeWords } from "../../utils/capitalizeWords";
+
+const categories = [
+  "Hosting",
+  "Marketing",
+  "Design",
+  "Development",
+  "Photography",
+  "Video",
+  "Writing",
+  "Support",
+];
+const sortOptions = [
+  { label: "Price: Low to High", value: "asc" },
+  { label: "Price: High to Low", value: "desc" },
+];
 
 const Services = () => {
   const axios = useAxios();
+
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
+
   const getServices = async () => {
-    const res = await axios.get("/services");
+    const res = await axios.get(
+      `/services?sortField=price&sortOrder=${price}&category=${category}`
+    );
     return res;
   };
   const {
@@ -16,7 +38,7 @@ const Services = () => {
     isError,
     isLoading,
   } = useQuery({
-    queryKey: ["service"],
+    queryKey: ["service", price, category],
     queryFn: getServices,
   });
 
@@ -33,7 +55,7 @@ const Services = () => {
 
   if (isError) {
     return (
-      <div className="text-green-500 flex justify-center items-center w-3/4 mx-auto">
+      <div className="text-green-500 flex justify-center items-center w-3/4 mx-auto mt-24">
         <div role="alert" className="alert alert-error">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -60,8 +82,50 @@ const Services = () => {
           title="Services"
           description="We Provide Different Cleaning Services"
         />
+        <div className="flex justify-center space-x-4 p-4 bg-green-300 rounded-lg shadow-lg mb-10">
+          <div>
+            <label
+              htmlFor="category"
+              className="block text-sm font-medium text-gray-700 pl-2"
+            >
+              Category
+            </label>
+            <select
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-green-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md"
+            >
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {capitalizeWords(cat)}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label
+              htmlFor="sort"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Sort by Price
+            </label>
+            <select
+              id="sort"
+              value={sortOptions}
+              onChange={(e) => setPrice(e.target.value)}
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md"
+            >
+              {sortOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {services?.data?.map((item) => (
+          {services?.data?.result.map((item) => (
             <ServiceCard key={item._id} service={item} />
           ))}
         </div>
