@@ -3,7 +3,7 @@ import useAuth from "../../hooks/useAuth";
 
 const navItems = [
   { name: "About", path: "/about" },
-  { name: "Booking", path: "/booking" },
+  { name: "Services", path: "/services" },
   { name: "Contact", path: "/contact" },
 ];
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+/* import { useState } from "react";
 
 const categories = [
   "All",
@@ -81,3 +81,4 @@ const FilteringDropdown = ({ onFilterChange, onSortChange }) => {
 };
 
 export default FilteringDropdown;
+ */

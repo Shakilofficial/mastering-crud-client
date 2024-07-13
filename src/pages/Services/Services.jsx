@@ -20,8 +20,8 @@ const categories = [
   "Support",
 ];
 const sortOptions = [
-  { label: "Price: Low to High", value: "asc" },
-  { label: "Price: High to Low", value: "desc" },
+  { label: "Low to High", value: "asc" },
+  { label: "High to Low", value: "desc" },
 ];
 
 const Services = () => {

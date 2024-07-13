@@ -55,14 +55,6 @@ const Navbar = () => {
             Services
           </NavLink>
           <NavLink
-            to="/booking"
-            className={({ isActive }) =>
-              isActive ? "btn btn-primary btn-sm" : "btn btn-ghost btn-sm"
-            }
-          >
-            Booking
-          </NavLink>
-          <NavLink
             to="/contact"
             className={({ isActive }) =>
               isActive ? "btn btn-primary btn-sm" : "btn btn-ghost btn-sm"
