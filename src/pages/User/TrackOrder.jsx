@@ -1,15 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
-
-import { auth } from "../../config/firebase.config";
-
-import useAxios from "../../hooks/useAxios";
-import Loading from "../../components/ui/Loading";
-import Error from "../../components/ui/Error";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Container from "../../components/ui/Container";
+import Error from "../../components/ui/Error";
 import Header from "../../components/ui/Header";
-import { Link } from "react-router-dom";
+import Loading from "../../components/ui/Loading";
+import { auth } from "../../config/firebase.config";
+import useAxios from "../../hooks/useAxios";
+import toast from "react-hot-toast";
 const TrackOrder = () => {
   const axios = useAxios();
+  const queryClient = useQueryClient();
+
   const {
     data: bookings,
     isLoading,
@@ -18,11 +18,21 @@ const TrackOrder = () => {
     queryKey: ["booking"],
     queryFn: async () => {
       const email = auth.currentUser.email;
-      console.log(email);
       const res = await axios.get(`/user/bookings/?email=${email}`);
       return res.data;
     },
   });
+  const { mutate } = useMutation({
+    mutationKey: ["booking"],
+    mutationFn: (id) => {
+      return axios.delete(`/user/cancel-booking/${id}`);
+    },
+    onSuccess: () => {
+      toast.success("Successfully Deleted");
+      queryClient.invalidateQueries({ queryKey: ["booking"] });
+    },
+  });
+
   if (isLoading) {
     return <Loading />;
   }
@@ -30,6 +40,7 @@ const TrackOrder = () => {
   if (isError) {
     return <Error />;
   }
+
   return (
     <div>
       <Container className="my-12">
@@ -99,12 +110,12 @@ const TrackOrder = () => {
                       ${booking.servicePrice}
                     </td>
                     <td className="">
-                      <Link to={booking._id}
-                        href="#"
+                      <button
+                        onClick={() => mutate(booking._id)}
                         className="inline-block rounded bg-rose-600 px-4 py-2 text-xs font-medium text-white hover:bg-rose-800"
                       >
                         Delete
-                      </Link>
+                      </button>
                     </td>
                   </tr>
                 ))}
